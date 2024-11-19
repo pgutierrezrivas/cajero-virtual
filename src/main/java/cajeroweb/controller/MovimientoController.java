@@ -124,8 +124,8 @@ public class MovimientoController {
 					Movimiento movimientoDestino = Movimiento.crearMovimiento(cuentaDestino, cantidad, operacionDestino);
 
 					if (cuentaOrigen.extraer(cantidad)) { //uso metodo propio extraer de la clase cuenta
-						//MUY IMPORTANTE! modifico saldo cuenta destino en memoria antes de llamar al metodo modificarSaldo
-						cuentaDestino.setSaldo(cuentaDestino.getSaldo() + movimientoDestino.getCantidad());
+						//uso metodo propio ingresar de la clase cuenta para actualizar saldo cuenta destino en memoria
+						cuentaDestino.ingresar(cantidad);
 						
 						//modifico los saldos de las cuentas en bbdd
 						cdao.modificarSaldo(cuentaOrigen);
