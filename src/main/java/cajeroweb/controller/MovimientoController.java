@@ -57,7 +57,7 @@ public class MovimientoController {
 					case "INGRESO": //si valor de la operacion es 'ingreso'
 						cuenta.ingresar(cantidad); //uso metodo propio ingresar de la clase cuenta
 						cdao.modificarSaldo(cuenta); //modifico el saldo de la cuenta
-						mdao.altaMovimiento(movimiento); //creo el movimiento
+						mdao.altaMovimiento(movimiento); //doy de alta el movimiento
 						mensaje = "Ingreso realizado correctamente"; //muestro mensaje ok
 						break;
 					case "EXTRACCION": //si valor de la operacion es 'extraccion', igual que en ingreso pero uso metodo extraer
@@ -82,6 +82,73 @@ public class MovimientoController {
 		} else {
 			mensaje = "Cuenta no existe"; //si la cuenta no existe redirijo al login
 			dondeRedirigir = "redirect:/login";
+		}
+
+		ratt.addFlashAttribute("mensaje", mensaje); //aqui defino el mensaje flash con la variable mensaje que cree al incio
+
+		return dondeRedirigir;
+	}
+	
+	@GetMapping("/transferir") //al pinchar en 'Transferencia'
+	public String procesarTransferir() {
+		return "formTransferir"; //devuelvo el formulario donde el usuario realiza transferencias entre cuentas
+	}
+
+	@PostMapping("/transferir") //al pinchar en el boton 'Realizar transferencia' del formulario transferir
+	public String procesarFormTransferir(@RequestParam double cantidad, @RequestParam int idCuentaDestino, 
+			HttpSession sesion, RedirectAttributes ratt) {
+
+		String mensaje = ""; //para simplificar el codigo
+		String dondeRedirigir = "redirect:/movimientos/"; //para que solo haya un punto de return
+
+		Cuenta cuentaOrigen = (Cuenta) sesion.getAttribute("cuenta"); //recupero el objeto cuenta entero guardado en la sesion
+
+		if (cuentaOrigen == null) { //si la cuenta de origen no existe redirijo al login
+			mensaje = "Cuenta no existe";
+			dondeRedirigir = "redirect:/login";
+		} else if (cuentaOrigen.getIdCuenta() == idCuentaDestino) { //si el id de la cuenta origen es igual al de destino = operacion no valida
+			mensaje = "Operación no válida. Cuenta origen y cuenta destino son iguales";
+			dondeRedirigir = "redirect:/movimientos/transferir"; //y me quedo en la pagina de transferir
+		} else {
+			try {
+				Cuenta cuentaDestino = cdao.buscarUno(idCuentaDestino); /*busco en la bbdd la cuenta con el idCuentaReceptora que nos han 
+				pasado por el formulario y creo cuenta destino*/
+
+				if (cuentaDestino != null) {
+					//declaro el valor de las operaciones origien y destino
+					String operacionOrigen = "EXTRACCION POR TRANSFERENCIA";
+					String operacionDestino = "INGRESO POR TRANSFERENCIA"; 
+
+					//creo los movimientos origen y destino
+					Movimiento movimientoOrigen = Movimiento.crearMovimiento(cuentaOrigen, cantidad, operacionOrigen);
+					Movimiento movimientoDestino = Movimiento.crearMovimiento(cuentaDestino, cantidad, operacionDestino);
+
+					if (cuentaOrigen.extraer(cantidad)) { //uso metodo propio extraer de la clase cuenta
+						//MUY IMPORTANTE! modifico saldo cuenta destino en memoria antes de llamar al metodo modificarSaldo
+						cuentaDestino.setSaldo(cuentaDestino.getSaldo() + movimientoDestino.getCantidad());
+						
+						//modifico los saldos de las cuentas en bbdd
+						cdao.modificarSaldo(cuentaOrigen);
+						cdao.modificarSaldo(cuentaDestino);
+						
+						//doy de alta los movimientos en la bbdd
+						mdao.altaMovimiento(movimientoOrigen); 
+						mdao.altaMovimiento(movimientoDestino);
+						
+						//muestro mensaje ok
+						mensaje = "Transferencia realizada correctamente";
+					} else { //si sale por aqui tenemos saldo insuficiente
+						mensaje = "Saldo insuficiente"; //muestro mensaje
+						dondeRedirigir = "redirect:/movimientos/transferir"; //y me quedo en la pagina de transferir
+					}
+				} else {
+					mensaje = "Cuenta destino no encontrada";
+	                dondeRedirigir = "redirect:/movimientos/transferir";
+				}
+			} catch (IllegalArgumentException e) {
+				mensaje = e.getMessage(); //capturo el mensaje de la excepcion
+		        dondeRedirigir = "redirect:/movimientos/transferir"; //y redirijo de nuevo a transferir
+			}
 		}
 
 		ratt.addFlashAttribute("mensaje", mensaje); //aqui defino el mensaje flash con la variable mensaje que cree al incio

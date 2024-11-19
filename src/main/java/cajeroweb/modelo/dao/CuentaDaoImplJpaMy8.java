@@ -21,8 +21,8 @@ public class CuentaDaoImplJpaMy8 implements CuentaDao {
 	public void modificarSaldo(Cuenta cuenta) {
 		try {
 			Cuenta cuentaAntigua = buscarUno(cuenta.getIdCuenta());
-			/**esto lo hago asi para que no se pueda modificar otros campos
-			 *  de cuenta cuando se llame a este metodo desde otros lugares**/
+			/*esto lo hago asi para que no se pueda modificar otros campos
+			 * de cuenta cuando se llame a este metodo desde otros lugares*/
 
 			cuentaAntigua.setSaldo(cuenta.getSaldo());
 			crepo.save(cuentaAntigua);
