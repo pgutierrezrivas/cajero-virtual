@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Listado de movimientos</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+	<h1>Listado de los movimientos de tu cuenta</h1>
+	<h4>Mensaje: <span id="mensaje" th:text="${mensaje}"></span></h4>
+	<h4>Cuenta: <span th:text="${session.cuenta.idCuenta}"></span></h4>
+	<h4>Saldo actual en cuenta: <span th:text="${session.cuenta.saldo} + ' €'"></span></h4>
+	<table>
+		<tr>
+			<th>Fecha</th>
+			<th>Importe</th>
+			<th>Tipo Operación</th>
+		</tr>
+		<tr th:each="ele : ${movimientos}">
+				<td th:text="${#dates.format(ele.fecha, 'dd-MM-yyyy')}"></td>
+				<td th:text="${ele.cantidad} + ' €'"></td>
+				<td th:text="${ele.operacion}"></td>
+		</tr>
+	</table>
+	<ul>
+		<li><a th:href="@{/movimientos/alta}">Ingresar/Extraer</a></li>
+		<li><a th:href="@{/}">Volver a inicio</a></li>
+		<li><a th:href="@{/logout}">Cerrar sesión</a></li>
+	</ul>
+</body>
+</html>

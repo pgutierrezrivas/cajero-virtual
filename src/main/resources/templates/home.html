@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+	<h1>Bienvenido al cajero</h1>
+	<p></p>
+	<h4>Mensaje: <span id="mensaje" th:text="${mensaje}"></span></h4>
+	<h4>Cuenta: <span th:text="${session.cuenta.idCuenta}"></span></h4>
+	<h4>Saldo actual en cuenta: <span th:text="${session.cuenta.saldo} + ' €'"></span></h4>
+	<br>
+	<h3>¿Qué desea hacer a continuación?</h3>
+	<ul>
+		<li><a th:href="@{/movimientos/alta}">Ingresar/Extraer</a></li>
+		<li><a th:href="@{/movimientos/}">Ver movimientos</a></li>
+		<li><a th:href="@{/logout}">Cerrar sesión</a></li>
+	</ul>
+	<img alt="savings-pig" th:src="@{/css/savings-pig.svg}">
+</body>
+</html>

@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+* {
+	font-family: Monospace;
+}
+body {
+    margin: 0;
+    padding: 20px 40px;
+    background-color: #F2F8FF;
+    font-size: 14px; 
+}
+
+h2 {
+    color: #2C3E50;
+    margin-bottom: 20px;
+}
+
+h4 {
+    color: #34495E;
+    margin-bottom: 15px;
+}
+
+span {
+    color: #AA60DA;
+    font-weight: bold;
+    padding: 2px;
+}
+
+#mensaje {
+    color: #ED1C24;
+    text-transform: uppercase;
+}
+
+a {
+    color: #4A4DDF;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #AA60DA;
+    text-decoration: none;
+}
+
+table {
+    margin: 25px 0;
+    background-color: #F2F8FF;
+}
+
+table, th, td {
+    border: 1px solid #4A4DDF;
+}
+
+th, td {
+    padding: 8px;
+    	min-width: 100px;
+}
+
+th {
+    background-color: #7F82E1;
+    color: white;
+}
+
+ul li {
+	margin: 18px 0;
+	padding-left: 6px;
+}
+
+input[type="submit"] {
+	background-color: #4A4DDF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 10px 0;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+	background-color: #AA60DA;
+}
+
+form {
+    border: 1px solid #4A4DDF;
+    padding: 10px 30px;
+    margin: 25px 0;
+    max-width: 480px;
+}
+
+img {
+	max-width: 250px;
+	width: 100%;
+	margin-top: -10px;
+	margin-left: 60px;
+}
+
+
