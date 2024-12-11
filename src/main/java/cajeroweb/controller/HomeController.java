@@ -48,10 +48,5 @@ public class HomeController {
 		sesion.invalidate();
 		return "forward:/login"; //y devuelvo a la vista de inicio de sesion
 	}
-	
-	@GetMapping("/movimientos") //mostrar vista de todos los movimientos de la cuenta
-	public String verMovimientos(HttpSession sesion) {
-		return "listadoMovimientos";
-	}
 
 }

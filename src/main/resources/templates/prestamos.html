@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Préstamos</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+	<h1>Listado de préstamos</h1>
+	<a th:href="@{/prestamos/altaPrestamo}">Añadir Préstamo</a>
+	<h4>Mensaje: <span id="mensaje" th:text="${mensaje}"></span></h4>
+	<h4>Cuenta: <span th:text="${session.cuenta.idCuenta}"></span></h4>
+	<h4>Saldo actual en cuenta: <span th:text="${session.cuenta.saldo} + ' €'"></span></h4>
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>Fecha</th>
+			<th>Descripcion</th>
+			<th>Importe</th>
+			<th>Interes</th>
+			<th>Plazo</th>
+			<th>Cuota</th>
+			<th>Operaciones</th>
+		</tr>
+		<tr th:each="ele : ${prestamos}">
+			<td th:text="${ele.idPrestamo}"></td>
+			<td th:text="${#dates.format(ele.fechaPrestamo, 'dd-MM-yyyy')}"></td>
+			<td th:text="${ele.descripcion}"></td>
+			<td th:text="${ele.cantidadPrestamo} + ' €'"></td>
+			<td th:text="${ele.tasaInteresAnual} + ' %'"></td>
+			<td th:text="${ele.plazoMeses} + ' meses'"></td>
+			<td th:text="${ele.tipoCuota}"></td>
+			<td><a th:href="@{/prestamos/eliminar/{idPrestamo}(idPrestamo=${ele.idPrestamo})}">Eliminar</a></td>
+		</tr>
+	</table>
+	<ul>
+		<li><a th:href="@{/}">Volver a inicio</a></li>
+		<li><a th:href="@{/logout}">Cerrar sesión</a></li>
+	</ul>
+</body>
+</html>

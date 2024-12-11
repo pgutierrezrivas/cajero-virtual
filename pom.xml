@@ -55,9 +55,10 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.26</version>  <!-- Usa la versión más reciente disponible -->
+		    <scope>provided</scope> <!-- Asegura que Lombok no se incluya en el paquete final -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

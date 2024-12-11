@@ -4,7 +4,7 @@ import java.util.List;
 
 import cajeroweb.modelo.entidades.Movimiento;
 
-public interface MovimientoDao { //del Igenerico cojo el buscartodos
+public interface MovimientoDao {
 	
 	List<Movimiento> buscarPorCuenta(int idCuenta); //lista movimientos de una cuenta
 	

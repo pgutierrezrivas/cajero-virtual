@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Alta Préstamo</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+	<h1>Alta préstamo</h1>
+	<h4>Mensaje: <span id="mensaje" th:text="${mensaje}"></span></h4>
+	<h4>Cuenta: <span th:text="${session.cuenta.idCuenta}"></span></h4>
+	<h4>Saldo actual en cuenta: <span th:text="${session.cuenta.saldo} + ' €'"></span></h4>
+	<form th:action="@{/prestamos/altaPrestamo}" method="post">
+		<div>
+			<label for="descripcion">Descripción:</label>
+			<input type="text" name="descripcion"
+				placeholder="Ingrese la descripción" required>
+		</div>
+		<div>
+			<label for="cantidadPrestamo">Cantidad:</label>
+			<input type="text"  name="cantidadPrestamo" placeholder="Ingrese la cantidad" required>
+		</div>
+		<div>
+			<label for="tasaInteresAnual">Tasa Interes Anual</label>
+			<input type="text"  name="tasaInteresAnual" min="1"
+				placeholder="tasaInteresAnual" required>
+		</div>
+		<div>
+			<label for="plazoMeses">Plazo Meses:</label>
+			<input type="number" name="plazoMeses" min="1" max= "84"
+				placeholder="plazoMeses" required>
+		</div>
+		<div>
+			<label for="tipoCuota">Tipo Cuota:</label>
+			<select name="tipoCuota" required>
+				<option value="">Seleccione tipoCuota</option>
+				<option value="FIJO">FIJO</option>
+				<option value="VARIABLE">VARIABLE</option>
+			</select>
+		</div>
+		<div>
+			<input type="submit"  value="Enviar">
+		</div>
+	</form>
+	<ul>
+		<li><a th:href="@{/}">Volver a inicio</a></li>
+		<li><a th:href="@{/logout}">Cerrar sesión</a></li>
+	</ul>
+</body>
+</html>
